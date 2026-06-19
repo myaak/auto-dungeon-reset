@@ -1,7 +1,7 @@
 {
     "disableAutoUpdate": false,
     "options": {
-        "niceName": "&nbsp;<font color='#47A3FF'>ADR</font>",
+        "niceName": "<font color='#47A3FF'>ADR</font>",
         "settingsFile": "config.json",
         "reloadable": true
     },
