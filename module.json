@@ -10,5 +10,5 @@
     "description": "Auto dungeon reset module.",
     "drmKey": "XD",
     "version": "1.0",
-    "servers": ["https://raw.githubusercontent.com/SerenTera/tera-notifier/master/"]
+    "servers": ["https://raw.githubusercontent.com/myaak/auto-dungeon-reset/main/"]
 }
