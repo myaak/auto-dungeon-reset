@@ -1,0 +1,30 @@
+{
+    "enabled": true,
+    "resetDelay": 1000,
+    "resetBosses": [
+        { "huntingZoneId": 453,  "templateId": 999,  "name": "Kezzel (Kezzel's Gorge)" },
+        { "huntingZoneId": 459,  "templateId": 1003, "name": "Desolarus (Forsaken Island)" },
+        { "huntingZoneId": 716,  "templateId": 1000, "name": "Darkan (Sky Cruiser Endeavor)" },
+        { "huntingZoneId": 720,  "templateId": 3000, "name": "Antaroth (Antaroth's Abyss)" },
+        { "huntingZoneId": 750,  "templateId": 1003, "name": "Koleogg (Rift's Edge)" },
+        { "huntingZoneId": 760,  "templateId": 3000, "name": "Kalivan (Kalivan's Dreadnaught)" },
+        { "huntingZoneId": 768,  "templateId": 3000, "name": "Imperator (Shadow Sanguinary)" },
+        { "huntingZoneId": 770,  "templateId": 3000, "name": "Lachelith (Ruinous Manor)" },
+        { "huntingZoneId": 794,  "templateId": 3000, "name": "Gaaruksalk (Thaumetal Refinery)" },
+        { "huntingZoneId": 939,  "templateId": 3001, "name": "Nightmare Argog (Red Refuge HM)" },
+        { "huntingZoneId": 970,  "templateId": 3000, "name": "Nightmare Lachelith (Ruinous Manor HM)" },
+        { "huntingZoneId": 3027, "templateId": 1000, "name": "Hagufna (Forbidden Arena)" },
+        { "huntingZoneId": 3034, "templateId": 3000, "name": "Rampaging RK-9 (RK-9 Kennel)" },
+        { "huntingZoneId": 3036, "templateId": 1000, "name": "Nightmare Darkan (Sky Cruiser HM)" },
+        { "huntingZoneId": 3047, "templateId": 1000, "name": "Revivified Shandra Manaya (Hall of the Argon Queen)" },
+        { "huntingZoneId": 3104, "templateId": 1000, "name": "Lumikan (Lumikan's Dream)" },
+        { "huntingZoneId": 3106, "templateId": 1000, "name": "Gardan (Killing Grounds)" },
+        { "huntingZoneId": 3109, "templateId": 2000, "name": "Rampaging Hellen (Ice Throne)" },
+        { "huntingZoneId": 3202, "templateId": 1000, "name": "Nightmare Commander Kalligar (Draakon Arena HM)" },
+        { "huntingZoneId": 3204, "templateId": 1000, "name": "Nightmare Lumikan (Lumikan's Dream HM)" },
+        { "huntingZoneId": 3206, "templateId": 1000, "name": "Nightmare Gardan (Crimson Killing Grounds)" },
+        { "huntingZoneId": 3209, "templateId": 2000, "name": "Slayer Hellen (Chaos Ice Throne)" },
+        { "huntingZoneId": 3920, "templateId": 3000, "name": "Cursed Antaroth (Twisted Abyss)" },
+        { "huntingZoneId": 3927, "templateId": 1000, "name": "Uwufna (Fluffy Arena)" }
+    ]
+}

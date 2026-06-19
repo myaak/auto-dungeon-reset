@@ -1,0 +1,14 @@
+{
+    "disableAutoUpdate": false,
+    "options": {
+        "niceName": "&nbsp;<font color='#47A3FF'>ADR</font>",
+        "settingsFile": "config.json",
+        "reloadable": true
+    },
+    "author": "&nbsp;<font color='#47A3FF'>myakushek</font>",
+    "name": "auto-reset",
+    "description": "Auto dungeon reset module.",
+    "drmKey": "XD",
+    "version": "1.0",
+    "servers": ["https://raw.githubusercontent.com/SerenTera/tera-notifier/master/"]
+}
