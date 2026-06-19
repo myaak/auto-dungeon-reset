@@ -28,12 +28,18 @@ module.exports = function AutoResetMod(mod) {
         );
 
     mod.hook('S_LOAD_TOPO', 'event', () => {
+        if (!enabled) {
+            return;
+        }
         items.clear();
         bosses.clear();
         needReset = false;
     });
 
     mod.hook('S_SPAWN_NPC', '*', (e) => {
+        if (!enabled) {
+            return;
+        }
         bosses.set(e.gameId, {
             huntingZoneId: e.huntingZoneId,
             templateId: e.templateId
@@ -41,6 +47,9 @@ module.exports = function AutoResetMod(mod) {
     });
 
     mod.hook('S_DESPAWN_NPC', '*', (e) => {
+        if (!enabled) {
+            return;
+        }
         const npc = bosses.get(e.gameId);
         bosses.delete(e.gameId);
         if (!npc) return;
@@ -54,10 +63,16 @@ module.exports = function AutoResetMod(mod) {
     });
 
     mod.hook('S_SPAWN_DROPITEM', '*', (e) => {
+        if (!enabled) {
+            return;
+        }
         items.add(e.gameId);
     });
 
     mod.hook('S_DESPAWN_DROPITEM', '*', (e) => {
+        if (!enabled) {
+            return;
+        }
         items.delete(e.gameId);
         if (!items.size && needReset) {
             needReset = false;
