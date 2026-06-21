@@ -6,6 +6,7 @@ module.exports = function AutoResetMod(mod) {
     const bosses = new Map();
     let needReset = false;
     let enabled = config.enabled;
+    let isPatryLeader = false;
 
     const GREEN  = (s) => `<font color="#33DD33">${s}</font>`;
     const RED = (s) => `<font color="#FF4040">${s}</font>`;
@@ -62,6 +63,10 @@ module.exports = function AutoResetMod(mod) {
         }
     });
 
+    mod.hook('S_PARTY_INFO', '*', (e) => {
+       isPatryLeader = mod.game.me.gameId === e.leader;
+    });
+
     mod.hook('S_SPAWN_DROPITEM', '*', (e) => {
         if (!enabled) {
             return;
@@ -69,12 +74,21 @@ module.exports = function AutoResetMod(mod) {
         items.add(e.gameId);
     });
 
+    mod.hook('C_VOTE_RESET_ALL_DUNGEON', '*', (e) => {
+        if (needReset && !isPatryLeader) {
+            needReset = false;
+            e.accept = true;
+            return true;
+        }
+    });
+
     mod.hook('S_DESPAWN_DROPITEM', '*', (e) => {
         if (!enabled) {
             return;
         }
         items.delete(e.gameId);
-        if (!items.size && needReset) {
+        
+        if (!items.size && needReset && isPatryLeader) {
             needReset = false;
             setTimeout(() => {
                 mod.command.message(GREEN('Automatically reset'));
