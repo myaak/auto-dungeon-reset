@@ -4,9 +4,8 @@ module.exports = function AutoResetMod(mod) {
     const cmd = mod.command || mod.require.command;
     const items = new Set();
     const bosses = new Map();
-    const whitelistedHuntingZones = new Set((config.resetBosses ?? []).map((boss) => boss.huntingZoneId));
-    const configBosses = new Map();
-    let needReset = false;
+    const configBosses = new Map((config.resetBosses ?? []).map((boss) => [`${boss.huntingZoneId}|${boss.templateId}`, boss]));
+    let resetOptions = {};
     let enabled = config.enabled;
     let isPatryLeader = false;
 
@@ -14,43 +13,37 @@ module.exports = function AutoResetMod(mod) {
     const RED = (s) => `<font color="#FF4040">${s}</font>`;
     const HL  = (s) => `<font color="#FFD24D">${s}</font>`;
 
-    cmd.add('ar', {
+    cmd.add('adr', {
         $default() {
             enabled = !enabled;
             mod.command.message(`${enabled ? GREEN('enabled') : RED('disabled')}`);
         },
         c() {
-            needReset = false;
-            mod.command.message(GREEN('Auto reset cancelled'));
+            resetOptions = {};
+            mod.command.message(GREEN('Auto dungeon reset cancelled'));
         }
     });
 
-    const isResetBoss = (npc) => {
-        const targetBoss = configBosses.get(npc.huntingZoneId);
-        return npc.templateId === targetBoss?.templateId;
+    const getBoss = (npc) => {
+        return configBosses.get(`${npc.huntingZoneId}|${npc.templateId}`);
     }
-
-    mod.hook('S_LOGIN', '*', () => {
-        config.resetBosses.forEach((b) => {
-            configBosses.set(b.huntingZoneId, b.templateId);
-        });
-    });
 
     mod.hook('S_LOAD_TOPO', 'event', () => {
         items.clear();
         bosses.clear();
-        needReset = false;
+        resetOptions = {};
     });
 
     mod.hook('S_SPAWN_NPC', '*', (e) => {
-        if (!whitelistedHuntingZones.has(+e.huntingZoneId)) {
+        const configBoss = configBosses.get(`${e.huntingZoneId}|${e.templateId}`);
+        if (!configBoss) {
             return;
         }
-
         bosses.set(e.gameId, {
             huntingZoneId: e.huntingZoneId,
             templateId: e.templateId
         });
+        mod.command.message(`Auto reset after boss: ${configBoss.name}`);
     });
 
     mod.hook('S_DESPAWN_NPC', '*', (e) => {
@@ -63,14 +56,20 @@ module.exports = function AutoResetMod(mod) {
 
         if (e.type !== 5) return;
 
-        if (isResetBoss(npc)) {
-            mod.command.message(`Reset boss killed ${HL('ar c')} to cancel`);
-            needReset = true;
+        const definedBoss = getBoss(npc);
+
+        if (definedBoss) {
+            mod.command.message(`Waiting for loot stage. ${HL('adr c')} to cancel`);
+            resetOptions = { need: true, boss: definedBoss };
         }
     });
 
-    mod.hook('S_PARTY_INFO', '*', (e) => {
-       isPatryLeader = mod.game.me.gameId === e.leader;
+    mod.hook('S_CHANGE_PARTY_MANAGER', '*', (e) => {
+        isPatryLeader = mod.game.me.playerId === e.playerId;
+    });
+
+    mod.hook('S_PARTY_MEMBER_LIST', '*', (e) => {
+       isPatryLeader = mod.game.me.playerId === e.leader.playerId;
     });
 
     mod.hook('S_SPAWN_DROPITEM', '*', (e) => {
@@ -80,13 +79,17 @@ module.exports = function AutoResetMod(mod) {
         items.add(e.gameId);
     });
 
+    mod.hook('S_LEAVE_PARTY', '*', () => {
+        isPatryLeader = false;
+    });
+
     mod.hook('C_VOTE_RESET_ALL_DUNGEON', '*', (e) => {
         if (!enabled) {
             return;
         }
 
-        if (needReset && !isPatryLeader) {
-            needReset = false;
+        if (resetOptions.need && !isPatryLeader) {
+            resetOptions = {};
             e.accept = true;
             return true;
         }
@@ -98,11 +101,11 @@ module.exports = function AutoResetMod(mod) {
         }
         items.delete(e.gameId);
         
-        if (!items.size && needReset && isPatryLeader) {
-            needReset = false;
+        if (!items.size && resetOptions.need && (isPatryLeader || !!resetOptions?.boss?.solo)) {
+            resetOptions = {};
             setTimeout(() => {
-                mod.command.message(GREEN('Automatically reset'));
                 mod.send('C_RESET_ALL_DUNGEON', '*', {});
+                mod.command.message(GREEN('Successful auto reset.'));
             }, config.resetDelay || 0);
         }
     });

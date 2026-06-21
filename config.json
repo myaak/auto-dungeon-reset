@@ -25,6 +25,7 @@
         { "huntingZoneId": 3206, "templateId": 1000, "name": "Nightmare Gardan (Crimson Killing Grounds)" },
         { "huntingZoneId": 3209, "templateId": 2000, "name": "Slayer Hellen (Chaos Ice Throne)" },
         { "huntingZoneId": 3920, "templateId": 3000, "name": "Cursed Antaroth (Twisted Abyss)" },
-        { "huntingZoneId": 3927, "templateId": 1000, "name": "Uwufna (Fluffy Arena)" }
+        { "huntingZoneId": 3927, "templateId": 1000, "name": "Uwufna (Fluffy Arena)" },
+        { "huntingZoneId": 3152, "templateId": 1000, "name": "Kaligar (Solo)", "solo": true }
     ]
 }
