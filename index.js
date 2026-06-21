@@ -5,6 +5,7 @@ module.exports = function AutoResetMod(mod) {
     const items = new Set();
     const bosses = new Map();
     const whitelistedHuntingZones = new Set((config.resetBosses ?? []).map((boss) => boss.huntingZoneId));
+    const configBosses = new Map();
     let needReset = false;
     let enabled = config.enabled;
     let isPatryLeader = false;
@@ -24,10 +25,16 @@ module.exports = function AutoResetMod(mod) {
         }
     });
 
-    const isResetBoss = (npc) =>
-        config.resetBosses.some(b =>
-            b.huntingZoneId === npc.huntingZoneId && b.templateId === npc.templateId
-        );
+    const isResetBoss = (npc) => {
+        const targetBoss = configBosses.get(npc.huntingZoneId);
+        return npc.templateId === targetBoss?.templateId;
+    }
+
+    mod.hook('S_LOGIN', '*', () => {
+        config.resetBosses.forEach((b) => {
+            configBosses.set(b.huntingZoneId, b.templateId);
+        });
+    });
 
     mod.hook('S_LOAD_TOPO', 'event', () => {
         items.clear();
