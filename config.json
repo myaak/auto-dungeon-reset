@@ -26,6 +26,9 @@
         { "huntingZoneId": 3209, "templateId": 2000, "name": "Slayer Hellen (Chaos Ice Throne)" },
         { "huntingZoneId": 3920, "templateId": 3000, "name": "Cursed Antaroth (Twisted Abyss)" },
         { "huntingZoneId": 3927, "templateId": 1000, "name": "Uwufna (Fluffy Arena)" },
-        { "huntingZoneId": 3152, "templateId": 1000, "name": "Kaligar (Solo)", "solo": true }
+        { "huntingZoneId": 3152, "templateId": 1000, "name": "Kaligar (Solo)", "solo": true },
+        { "huntingZoneId": 3153, "templateId": 1000, "name": "Crab (Solo)", "solo": true },
+        { "huntingZoneId": 3154, "templateId": 1000, "name": "Birchback (Solo)", "solo": true },
+        { "huntingZoneId": 3016, "templateId": 76903, "name": "Lilith (Solo)", "solo": true }
     ]
 }
