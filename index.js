@@ -4,6 +4,7 @@ module.exports = function AutoResetMod(mod) {
     const cmd = mod.command || mod.require.command;
     const items = new Set();
     const bosses = new Map();
+    const whitelistedHuntingZones = new Set((config.resetBosses ?? []).map((boss) => boss.huntingZoneId));
     let needReset = false;
     let enabled = config.enabled;
     let isPatryLeader = false;
@@ -35,6 +36,10 @@ module.exports = function AutoResetMod(mod) {
     });
 
     mod.hook('S_SPAWN_NPC', '*', (e) => {
+        if (!whitelistedHuntingZones.has(+e.huntingZoneId)) {
+            return;
+        }
+
         bosses.set(e.gameId, {
             huntingZoneId: e.huntingZoneId,
             templateId: e.templateId

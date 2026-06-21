@@ -1,6 +1,6 @@
 {
     "enabled": true,
-    "resetDelay": 1000,
+    "resetDelay": 100,
     "resetBosses": [
         { "huntingZoneId": 453,  "templateId": 999,  "name": "Kezzel (Kezzel's Gorge)" },
         { "huntingZoneId": 459,  "templateId": 1003, "name": "Desolarus (Forsaken Island)" },
