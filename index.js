@@ -83,15 +83,24 @@ module.exports = function AutoResetMod(mod) {
         isPatryLeader = false;
     });
 
-    mod.hook('C_VOTE_RESET_ALL_DUNGEON', '*', (e) => {
+    mod.hook('S_VOTE_RESET_ALL_DUNGEON', '*', () => {
         if (!enabled) {
             return;
         }
 
         if (resetOptions.need && !isPatryLeader) {
+            mod.send('C_VOTE_RESET_ALL_DUNGEON', '*', { accept: true }, { fake: true });
+        }
+    });
+
+    mod.hook('C_VOTE_RESET_ALL_DUNGEON', '*', { filter: { fake: null } }, (e) => {
+        if (!enabled) {
+            return;
+        }
+
+        if (resetOptions.need && !isPatryLeader && e.accept) {
             resetOptions = {};
-            e.accept = true;
-            return true;
+            mod.send('S_COMPLETE_VOTE', '*', {});
         }
     });
 
