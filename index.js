@@ -109,6 +109,7 @@ module.exports = function AutoResetMod(mod) {
             return;
         }
         items.delete(e.gameId);
+        console.log('Picked up item left on floor:', items.size);
         
         if (!items.size && resetOptions.need && (isPatryLeader || !!resetOptions?.boss?.solo)) {
             resetOptions = {};
