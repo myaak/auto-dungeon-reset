@@ -29,18 +29,12 @@ module.exports = function AutoResetMod(mod) {
         );
 
     mod.hook('S_LOAD_TOPO', 'event', () => {
-        if (!enabled) {
-            return;
-        }
         items.clear();
         bosses.clear();
         needReset = false;
     });
 
     mod.hook('S_SPAWN_NPC', '*', (e) => {
-        if (!enabled) {
-            return;
-        }
         bosses.set(e.gameId, {
             huntingZoneId: e.huntingZoneId,
             templateId: e.templateId
@@ -75,6 +69,10 @@ module.exports = function AutoResetMod(mod) {
     });
 
     mod.hook('C_VOTE_RESET_ALL_DUNGEON', '*', (e) => {
+        if (!enabled) {
+            return;
+        }
+
         if (needReset && !isPatryLeader) {
             needReset = false;
             e.accept = true;
